@@ -62,6 +62,26 @@ docker run -it -p 5000:5000 -v $PWD:/app linkode
 
 The server will be listening requests on http://localhost:5000
 
+Tests
+-----
+
+```
+docker run -it -v $PWD:/app linkode pytest
+```
+
+and `coverage`
+
+```
+docker run -it -v $PWD:/app linkode coverage run -m pytest
+```
+
+check the `coverage` report with:
+
+```
+docker run -it -v $PWD:/app linkode coverage report -m
+```
+
+
 How to Translate
 ----------------
 
