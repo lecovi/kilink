@@ -53,30 +53,14 @@ In a future this will be in a Doc file (source of that HTML).
 How To Try It In Development
 ----------------------------
 
-Just using fades:
+Use Docker
 
 ```
-./run
+docker build . -t linkode
+docker run -it -p 5000:5000 -v $PWD:/app linkode
 ```
 
-Or creating the virtualenv by hand:
-
-```bash
-virtualenv kilink
-cd kilink
-git clone https://github.com/facundobatista/kilink.git
-source bin/activate
-pip install -r requirements.txt
-./test
-python2 kilink/kilink.py
-```
-
-Or if you prefer to use Docker
-
-```
-docker build -t kilink .
-docker run -it -p 5000:5000 kilink
-```
+The server will be listening requests on http://localhost:5000
 
 How to Translate
 ----------------

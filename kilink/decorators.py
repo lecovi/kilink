@@ -30,6 +30,6 @@ def measure(metric_name):
                 return result
 
         # need to fix the name because it's used by flask
-        newf.func_name = oldf.func_name
+        newf.__name__ = oldf.__name__
         return newf
     return _decorator

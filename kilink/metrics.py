@@ -35,4 +35,4 @@ class StatsdClient(object):
         record = "{}.{}:{}|{}".format(
             self.namespace, bucket.encode("utf8"), value, metric_type)
         udp_sock = socket(AF_INET, SOCK_DGRAM)
-        udp_sock.sendto(record, self.addr)
+        udp_sock.sendto(bytes(record, 'utf-8'), self.addr)
