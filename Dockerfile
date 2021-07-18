@@ -9,4 +9,4 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 COPY . .
 
-CMD python kilink/kilink.py
+CMD python linkode.py

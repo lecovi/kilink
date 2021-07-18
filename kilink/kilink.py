@@ -17,11 +17,11 @@ from flask_cors import CORS
 from flask_babel import Babel
 from sqlalchemy import create_engine
 
-import backend
-import loghelper
+from . import backend 
+from . import loghelper
 
-from config import config, LANGUAGES
-from decorators import measure
+from .config import config, LANGUAGES
+from .decorators import measure
 
 # set up flask
 app = Flask(__name__)
@@ -35,6 +35,20 @@ cors = CORS(app)
 
 # logger
 logger = logging.getLogger('kilink.kilink')
+
+# load config
+config.load_file("configs/development.yaml")
+
+# log setup
+handlers = loghelper.setup_logging(config['log_directory'], verbose=True)
+for h in handlers:
+    app.logger.addHandler(h)
+    h.setLevel(logging.DEBUG)
+app.logger.setLevel(logging.DEBUG)
+
+# set up the backend
+engine = create_engine(config["db_engine"], echo=True)
+kilinkbackend = backend.KilinkBackend(engine)
 
 
 @app.errorhandler(backend.KilinkNotFoundError)
@@ -88,6 +102,7 @@ def version():
 @measure("index")
 def index(linkode_id=None, revno=None):
     """The base page."""
+    logger.debug("===========Requested %s", linkode_id)
     if linkode_id is not None and linkode_id.startswith('#'):
         if 'text/plain' in request.headers.get('Accept'):
             # serving plainly the linkode content
@@ -176,20 +191,3 @@ def api_get(linkode_id, revno=None):
     ret_json = jsonify(content=klnk.content, text_type=klnk.text_type,
                        tree=tree, timestamp=klnk.timestamp)
     return ret_json
-
-
-if __name__ == "__main__":
-    # load config
-    config.load_file("configs/development.yaml")
-
-    # log setup
-    handlers = loghelper.setup_logging(config['log_directory'], verbose=True)
-    for h in handlers:
-        app.logger.addHandler(h)
-        h.setLevel(logging.DEBUG)
-    app.logger.setLevel(logging.DEBUG)
-
-    # set up the backend
-    engine = create_engine(config["db_engine"], echo=True)
-    kilinkbackend = backend.KilinkBackend(engine)
-    app.run(debug=True, host='0.0.0.0')

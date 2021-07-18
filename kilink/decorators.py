@@ -1,7 +1,7 @@
 """Decorators to use in Flask."""
 
 import time
-from metrics import StatsdClient
+from .metrics import StatsdClient
 
 # metrics
 metrics = StatsdClient("linkode")

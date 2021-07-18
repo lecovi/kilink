@@ -16,7 +16,7 @@ from sqlalchemy import Column, DateTime, String, LargeBinary
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 
-from config import config
+from .config import config
 
 # what we use for plain text
 PLAIN_TEXT = 'plain text'
@@ -30,6 +30,9 @@ logger = logging.getLogger('kilink.backend')
 
 class KilinkNotFoundError(Exception):
     """A kilink was specified, we couldn't find it."""
+    def  __init__(self, *args: object) -> None:
+        super().__init__(*args)
+        self.message = self.args[0]
 
 
 class KilinkDataTooBigError(Exception):

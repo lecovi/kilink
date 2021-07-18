@@ -12,4 +12,6 @@ pylint==0.28.0
 Flask-Babel
 Flask-Assets
 nose
+pytest
 Flask-Cors==3.0.4
+coverage
