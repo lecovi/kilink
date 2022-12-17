@@ -53,7 +53,14 @@ In a future this will be in a Doc file (source of that HTML).
 How To Try It In Development
 ----------------------------
 
-Use Docker
+Use Docker Compose
+
+```bash
+cp env_dist .env
+docker-compose up --build
+```
+
+or using `docker run`:
 
 ```
 docker build . -t linkode
